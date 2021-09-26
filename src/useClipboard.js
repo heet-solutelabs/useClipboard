@@ -1,6 +1,6 @@
 import React from "react";
 
-function useClipboard(value) {
+function useClipboard(value = "", timeout = 1000) {
   const [copyText, setCopyText] = React.useState(false);
 
   const onCopy = React.useCallback(async () => {
@@ -8,6 +8,7 @@ function useClipboard(value) {
       await navigator.clipboard.writeText(value);
       setCopyText(true);
     } catch (error) {
+      setCopyText(false);
       console.error("error", error);
     }
   }, [value]);
@@ -17,10 +18,14 @@ function useClipboard(value) {
     if (copyText) {
       timerId = setTimeout(() => {
         setCopyText(false);
-      }, 1000);
+      }, timeout);
     }
-    return () => clearTimeout(timerId);
-  }, [copyText]);
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [copyText, timeout]);
 
   return { copyText, onCopy };
 }

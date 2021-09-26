@@ -7,7 +7,7 @@ function App() {
   const onInputChangeHandler = React.useCallback((currentValue) => {
     setValue(currentValue);
   }, []);
-  const { copyText, onCopy } = useClipboard(value);
+  const { copyText, onCopy } = useClipboard(value, 3000);
   return (
     <div className="App">
       <input
