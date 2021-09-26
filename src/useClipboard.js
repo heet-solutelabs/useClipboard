@@ -8,7 +8,6 @@ function useClipboard(value = "", timeout = 1000) {
       await navigator.clipboard.writeText(value);
       setCopyText(true);
     } catch (error) {
-      setCopyText(false);
       console.error("error", error);
     }
   }, [value]);
